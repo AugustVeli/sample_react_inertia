@@ -6,7 +6,7 @@ import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import AddNewAuthor from '../Components/AddNewAuthor';
 
-export default function Dashboard_Author({}) {
+export default function Dashboard_Author({authors}) {
 
     const [showAlert, setShowAlert] = useState(null)
     const [addAuthor, setAddAuthor] = useState('')

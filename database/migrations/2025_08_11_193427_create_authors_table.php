@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->text('author');
+            $table->text('author_russian');
             $table->text('type');
             $table->date('date_birth');
             $table->date('date_death');

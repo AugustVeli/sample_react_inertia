@@ -11,6 +11,20 @@ class Author extends Model
     /** @use HasFactory<\Database\Factories\AuthorFactory> */
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'author',
+        'author_russian',
+        'type',
+        'date_birth',
+        'date_death',
+        'description',
+    ];
+
         public function book(): BelongsToMany
     {
           return $this->BelongsToMany(Book::class, 'book_author_editor_tabel');

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('book_name');
             $table->string('iso')->unique();
-            $table->integer('auth_id');
-            $table->integer('editor_id');
+            $table->foreignId('auth_id')->constrained();
+            $table->foreignId('editor_id')->constrained();
             $table->string("name_genre");
+            $table->string("publisher");
+            $table->string("binding");
             $table->integer('amount');
             $table->double('price');
             $table->boolean('discount');

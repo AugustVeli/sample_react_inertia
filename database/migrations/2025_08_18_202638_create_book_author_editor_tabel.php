@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('book_author_editor_tabel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id');
-            $table->foreignId('author_id');
-            $table->foreignId('editor_id')->nullable();
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
-            $table->foreign('editor_id')->references('id')->on('editors')->onDelete('cascade');
-            $table->timestamps();
+            $table->foreignId('book_id')->constrained();
+            $table->foreignId('author_id')->constrained();
+            $table->foreignId('editor_id')->constrained();
         });
     }
 

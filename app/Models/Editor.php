@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Relations\belongsToMany;
 
 class Editor extends Model
 {
-    public function author(): belongsToMany
+    public function Book(): belongsToMany
     {
-          return $this->belongsToMany(Author::class, 'book_author_editor_tabel');
+          return $this->belongsToMany(book::class, 'book_author_editor_tabel');
     }
 }
