@@ -10,7 +10,7 @@ export default function BooksData({data}) {
     // const addRow = () => setNbRows();
      return (
     <Box sx={{ width: '100%' }}>
-      <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+      {/* <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
         <Button size="small" onClick={removeRow}>
           Remove a row
         </Button>
@@ -20,7 +20,7 @@ export default function BooksData({data}) {
       </Stack>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <DataGrid {...data} rows={data} loading={loading} />
-      </div>
+      </div> */}
     </Box>
   );
 }

@@ -1,13 +1,13 @@
 import { useState, useEffect }from 'react';
-import { useForm } from '@inertiajs/react'
-import Box from '@mui/material/Box';
+import { useForm, usePage } from '@inertiajs/react'
+// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import AddNewAuthor from '../Components/AddNewAuthor';
 
 export default function Dashboard_Author({authors}) {
-
+    const { flash } = usePage().props;
     const [showAlert, setShowAlert] = useState(null)
     const [addAuthor, setAddAuthor] = useState('')
     const handle_addAuthor = (item) => setAddAuthor(item);
@@ -40,7 +40,7 @@ export default function Dashboard_Author({authors}) {
                     </Alert>
             }
             <h1>Authors</h1>
-            <Button onClick={()=>handle_addAuthor(null)} color="success">Add book</Button>
+            <Button onClick={()=>handle_addAuthor(null)} color="success">Add author</Button>
             {addAuthor ?? <AddNewAuthor handle_addAuthor={handle_addAuthor}/>}
         </>
     )

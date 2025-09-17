@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Editor;
-use Illuminate\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BookController extends Controller
 {
-    function show() {
+    function show(): \Inertia\Response {
             return Inertia::render('Books', [
                 'books' => Book::all()->map(function ($book) {
                     return [
@@ -30,8 +29,6 @@ class BookController extends Controller
         ]);
     }
 
-
-
     function store(Request $request) {
 
         $validated = $request->validate([
@@ -44,32 +41,39 @@ class BookController extends Controller
             "binding"=>"max:30",
             "amount"=>"required",
             "price"=>"required",
+        ]);
+        // try {
+            // var_dump($validated);
+            $author_array = Author::where("author", $validated["author"])->firstOrFail();
+            // if (isset($validated["editor"])) {
+            //     $editor = Editor::where("editor", $validated["editor"])->firstOrFail();
+            //     $editor_id = $editor->id;
+            // }
+        // } catch (ModelNotFoundException $e) {
 
+        //     return redirect()->route('dashboard.book')->with("error", "Something went wrong!");
+        // }
+
+
+        $id_author = $author_array->id;
+
+
+        $book_table = Book::create([
+            "book_name"=>$validated["book_name"],
+            "iso"=>$validated["iso"],
+            "author_id"=> (int)$id_author,
+            "publisher"=> "hihihii",
+            "name_genre"=>$validated["name_genre"],
+            "binding"=>$validated["binding"],
+            "amount"=>(int)$validated["amount"],
+            "price"=>(float)$validated["price"],
+            "discount"=>0,
         ]);
 
-        var_dump($validated);
-
-        $author_array = Author::where("author", $validated["author"])->firstOrFail();
-        if (isset($validated["editor"])) {
-            $editor = Editor::where("editor", $validated["editor"])->firstOrFail();
-            $editor_id = $editor->id;
-        }
-        $id_author = $author_array->id;
+        $book_table->authors()->attach($id_author);
         //Add new author if there is not one
-        // $author = $author_array->author;
-        // $author_russion = $author_array->author_russion;
 
-        // return Book::create([
-        //     "book_name"=>$validated["book_name"],
-        //     "iso"=>$validated["iso"],
-        //     "auth_id"=>$id_author,
-        //     "editor_id"=>isset($editor_id) ? $editor_id : null,
-        //     "author"=>$validated["author"],
-        //     "name_genre"=>$validated["name_genre"],
-        //     "editor"=>$validated["editor"],
-        //     "binding"=>$validated["binding"],
-        //     "amount"=>$validated["amount"],
-        //     "price"=>$validated["price"],
-        // ]);
+
+        return redirect()->route('dashboard.book')->with("success", "You added a new book");
     }
 }

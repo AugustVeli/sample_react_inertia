@@ -14,13 +14,14 @@ Route::get('/books', [BookController::class, 'show'])->name('books.show');
 Route::inertia('/about', 'About');
 
 //Dashboard--------------
-// Route::post('/admin/dashbord/add_book', [BookController::class, 'store']);
 Route::get('/admin/dashboard', function () {
     return inertia("Dashboard");
 })->name('dashboard');
 Route::get('/admin/dashboard/book', function () {
     return inertia("Dashboard_Book");
-})->name('dashboard.addBook');
+})->name('dashboard.book');
+Route::post('/admin/dashboard/add_book', [BookController::class, 'store'])
+->name('book.add');
 Route::get('/admin/dashboard/author', function () {
     return inertia("Dashboard_Author");
 })->name('dashboard.author');

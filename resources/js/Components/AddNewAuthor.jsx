@@ -109,7 +109,7 @@ export default function AddNewAuthor({handle_addAuthor}) {
                     value={data.description}
                     onChange={e => setData('description', e.target.value)}
                 />
-                <Button type="submit" color="success" disabled={processing}>Create Book</Button>
+                <Button type="submit" color="success" disabled={processing}>Create Author</Button>
             </Box>
         </Box>
 

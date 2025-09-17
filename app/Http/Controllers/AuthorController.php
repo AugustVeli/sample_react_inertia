@@ -4,13 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
-// use Illuminate\Support\Facades\DB;
 use App\Models\Author;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Model;
-
-use function Termwind\render;
 
 class AuthorController extends Controller
 {
@@ -32,16 +26,16 @@ class AuthorController extends Controller
     }
 
     function store(Request $request) {
+        //made data format work
         $validated = $request->validate([
             "author"=>"required|max:50|unique:App\Models\Author,author",
             "author_russian"=>"required|max:50|unique:App\Models\Author,author_russian",
             "type"=>"required|max:50",
-            "date_birth"=>"required|date",
-            "date_death"=>"date",
+            "date_birth"=>"required|string",
+            "date_death"=>"string",
             "description"=>"required",
         ]);
 
-        // var_dump($validated);
         Author::create([
             "author"=>$validated["author"],
             "author_russian"=>$validated["author_russian"],
@@ -51,7 +45,7 @@ class AuthorController extends Controller
             "description"=>$validated["description"]
         ]);
 
-        return redirect()->route('dashboard.author');
+        return redirect()->route('dashboard');
 
     }
 }
