@@ -25,7 +25,7 @@ class Author extends Model
         'description',
     ];
 
-        public function books(): BelongsToMany
+    public function books(): BelongsToMany
     {
           return $this->BelongsToMany(Book::class, 'book_author_tabel');
     }

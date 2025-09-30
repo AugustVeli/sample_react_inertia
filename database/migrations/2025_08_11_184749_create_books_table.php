@@ -13,17 +13,20 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            // $table->string('photo');
             $table->string('book_name');
-            $table->string('iso')->unique();
-            // $table->foreignId('author_id')->constrained();
-            // $table->foreignId('editor_id')->constrained();
+            $table->string('author');
+            $table->string('author_org')->nullable();
+            $table->date("dateOfBook");
+            $table->string('iso')->unique()->nullable();
             $table->string("name_genre");
+            $table->string("series")->nullable();
             $table->string("publisher")->nullable();
-            $table->string("binding");
+            $table->string("binding")->nullable();
             $table->integer('amount');
-            $table->double('price');
-            $table->boolean('discount');
-            $table->double('price_discount')->nullable();
+            $table->string('location');
+            $table->longText("description");
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
