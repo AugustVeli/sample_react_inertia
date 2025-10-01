@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useForm, usePage } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -7,17 +7,18 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 
 
+
 export default function AddNewBook({handle_addBook}) {
     const { data, setData, post, processing, errors } = useForm({
             book_name: '',
             iso: '',
             author: '',
-            author_russian: '',
+            author_org: '',
             name_genre: '',
-            editor: '',
             binding: '',
+            publisher: '',
+            location:'',
             amount: '',
-            price: '',
         });
 
     function submit(e) {
@@ -42,7 +43,6 @@ export default function AddNewBook({handle_addBook}) {
                     onChange={e => setData('book_name', e.target.value)}
                 />
                 <TextField
-                    required
                     id="filled-required"
                     label="ISO"
                     type="text"
@@ -60,11 +60,11 @@ export default function AddNewBook({handle_addBook}) {
                 />
                 <TextField
                     id="filled-required"
-                    label="Author in Russian"
+                    label="Author in original"
                     type="text"
-                    name="author_russian"
-                    value={data.author_russian}
-                    onChange={e => setData('author_russian', e.target.value)}
+                    name="author_org"
+                    value={data.author_org}
+                    onChange={e => setData('author_org', e.target.value)}
                 />
                 <TextField
                     required
@@ -74,14 +74,6 @@ export default function AddNewBook({handle_addBook}) {
                     name="name_genre"
                     value={data.name_genre}
                     onChange={e => setData('name_genre', e.target.value)}
-                />
-                <TextField
-                    id="filled-required"
-                    label="Editor"
-                    type="text"
-                    name="editor"
-                    value={data.editor}
-                    onChange={e => setData('editor', e.target.value)}
                 />
                 <TextField
                     required
@@ -95,20 +87,20 @@ export default function AddNewBook({handle_addBook}) {
                 <TextField
                     required
                     id="filled-required"
+                    label="Location"
+                    type="text"
+                    name="location"
+                    value={data.location}
+                    onChange={e => setData('location', e.target.value)}
+                />
+                <TextField
+                    required
+                    id="filled-required"
                     label="Amount"
                     type="text"
                     name="amount"
                     value={data.amount}
                     onChange={e => setData('amount', e.target.value)}
-                />
-                <TextField
-                    required
-                    id="filled-required"
-                    label="Price"
-                    type="text"
-                    name="price"
-                    value={data.price}
-                    onChange={e => setData('price', e.target.value)}
                 />
                 <Button type='submit' variant="contained" disabled={processing}>Add book</Button>
             </Box>
