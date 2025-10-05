@@ -4,12 +4,14 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "cy:open": "cypress open"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
+        "cypress": "^15.3.0",
         "eslint": "^9.35.0",
         "eslint-plugin-react": "^7.37.5",
         "laravel-vite-plugin": "^2.0.0",
