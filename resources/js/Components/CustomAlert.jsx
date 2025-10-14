@@ -2,22 +2,22 @@ import { useState, useEffect, useCallback} from 'react';
 import Alert from '@mui/material/Alert';
 
 export default function CustomAlert({type, message}) {
-    const [showAlert, setShowAlert] = useState(true);
+    const [showAlert, setShowAlert] = useState(null);
     // const [messageShow, setMessageShow] = useState('');
 
     useEffect(() => {
         const timeId = setTimeout(() => {
             // After 3 seconds set the show value to false
-            setShowAlert(true)
+            setShowAlert('')
         }, 5000)
         return () => clearTimeout(timeId);
     }, []);
 
-    useCallback(() => {
-        // setMessageShow(message)
-        setShowAlert(null);
-        console.log(message, "CustomAlert");
-    }, [message]);
+    // useCallback(() => {
+    //     // setMessageShow(message)
+    //     setShowAlert(null);
+    //     console.log(message, "CustomAlert");
+    // }, [message]);
 
     return(showAlert ?? <Alert
             sx={{
@@ -28,7 +28,7 @@ export default function CustomAlert({type, message}) {
                 width: "fit-content",
                 marginTop: '50px'
             }}
-            severity="success"
+            severity={type}
             onClose={() => {setShowAlert('')}}>
             {message}
         </Alert>

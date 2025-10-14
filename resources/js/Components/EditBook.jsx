@@ -8,23 +8,24 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
 
-export default function AddNewBook({handle_addBook}) {
+export default function EditBook({handle_editBook, book}) {
     const { data, setData, post, processing, errors } = useForm({
-            book_name: '',
-            iso: '',
-            author: '',
-            author_org: '',
-            name_genre: '',
-            binding: '',
-            publisher: '',
-            description: '',
-            location:'',
-            amount: '',
+            book_name: book.book_name,
+            iso: book.iso,
+            author: book.author,
+            author_org: book.author_org,
+            name_genre: book.name_genre,
+            binding: book.binding,
+            publisher: book.publisher,
+            description: book.description,
+            location: book.location,
+            amount: book.amount,
         });
 
     function submit(e) {
         e.preventDefault();
-        post('/admin/dashboard/add_book');
+        handle_editBook('');
+        post(`/account/dashboard/update_book/${book.id}`);
     }
 
     return(
@@ -34,7 +35,7 @@ export default function AddNewBook({handle_addBook}) {
             width: "-webkit-fill-available"
         }}>
             <IconButton id="close-add-book" color="error" aria-label="Close the form">
-                <CloseIcon onClick={()=>handle_addBook('')}/>
+                <CloseIcon onClick={()=>handle_editBook('')}/>
             </IconButton>
             <Box component="form" onSubmit={submit} autoComplete='off'>
                 <Stack>
@@ -117,7 +118,7 @@ export default function AddNewBook({handle_addBook}) {
                         value={data.description}
                         onChange={e => setData('description', e.target.value)}
                     />
-                    <Button type='submit' variant="contained" disabled={processing}>Add book</Button>
+                    <Button type='submit' variant="contained" disabled={processing}>Save</Button>
                 </Stack>
 
             </Box>
