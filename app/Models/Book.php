@@ -31,9 +31,9 @@ class Book extends Model
         'user_id'
     ];
 
-    public function Users(): BelongsTo
+    public function users(): BelongsTo
     {
-          return $this->BelongsTo(User::class, 'books');
+          return $this->BelongsTo(User::class);
     }
 
 }

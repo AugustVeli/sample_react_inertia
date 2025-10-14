@@ -51,6 +51,6 @@ class User extends Authenticatable
 
     public function books(): HasMany
     {
-          return $this->HasMany(Book::class, 'users');
+          return $this->HasMany(Book::class, 'user_id');
     }
 }

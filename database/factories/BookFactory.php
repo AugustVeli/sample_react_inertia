@@ -34,7 +34,6 @@ class BookFactory extends Factory
             'location' => fake()->randomElement($location),
             'description' => fake()->sentence(),
             'amount' => fake()->randomDigit(),
-            "user_id"=> User::factory()
         ];
     }
 }
