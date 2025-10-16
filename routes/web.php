@@ -5,7 +5,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\Auth\LoginRegisterController;
 
 Route::get('/',[BookController::class, 'show'])->name('home');
-Route::post('/',[BookController::class, 'search'])->name('home.search');
+Route::post('/?search={}',[BookController::class, 'search'])->name('home.search');
 
 Route::inertia('/about', 'About');
 // Route::get('/account/dashboard/author', function () {
@@ -18,6 +18,10 @@ Route::inertia('/about', 'About');
 //Dashboard--------------
 Route::middleware("auth")->group(function () {
 // Route::get('/account', [Account::class, 'home'])->name('account.home');
+    // Route::get('/account',
+    //     [LoginRegisterController::class, 'account'])->name('account');
+    // Route::post('/account/update',
+    //     [LoginRegisterController::class, 'update'])->name('account.update');
     Route::get('/account/dashboard/book',
         [BookController::class, 'showInDashboard'])->name('dashboard.books');
     Route::post('/account/dashboard/add_book',
