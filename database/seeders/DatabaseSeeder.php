@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->count(5)->has(Book::factory(5), "books")->create();
-        // Book::factory()->count(20)->create();
+        $all_names = User::all('name')->pluck('name')->toArray();
+        Book::whereUserId(1)->update(["want_look" => implode(',', $all_names)]);
+        Book::whereUserId(2)->update(["want_look" => implode(',', $all_names)]);
     }
 }

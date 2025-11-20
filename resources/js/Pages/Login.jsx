@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import {createTheme}  from '@mui/material/styles';
 import Container from "@mui/material/Container";
-import { useForm } from '@inertiajs/react'
+import { useForm, Head } from '@inertiajs/react'
 
 
 const useStyles = createTheme(theme => ({
@@ -41,7 +41,6 @@ const useStyles = createTheme(theme => ({
 export default function Login() {
 
     const { data, setData, post, processing, errors } = useForm({
-            // _token: props.csrf_token,
             email:'',
             password:''
     });
@@ -54,10 +53,11 @@ export default function Login() {
     const classes = useStyles;
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" sx={{marginTop:"200px"}}>
             <CssBaseline />
+            <Head title='Login'/>
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h4" sx={{marginBottom:"20px"}}>
                     Log in
                 </Typography>
                 <form className={classes.form}

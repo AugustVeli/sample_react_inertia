@@ -1,8 +1,8 @@
 import * as React from 'react';
+import Link from '@mui/material/Link';
 import MyAppBar from '../Layers/MyAppBar';
 import { styled } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
-import { useForm } from '@inertiajs/react'
+import { useForm, Head } from '@inertiajs/react'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
@@ -22,17 +22,19 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 
-export default function Home({books}) {
+export default function Home({books, user_is_auth}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [expanded, setExpanded] = React.useState(false);
+  const [valueInput, setValueInput] = React.useState('');
 
-    const {post} = useForm();
+  const {data, get} = useForm();
 
-    function submit(e) {
+  function submit(e) {
+        console.log(valueInput, 'console');
         e.preventDefault();
-        post('/?search=' + e.target.value);
-    }
+        get('/?search=' + valueInput);
+  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -55,11 +57,12 @@ export default function Home({books}) {
 
   return (
     <>
-        <MyAppBar/>
+        <Head title='Home'/>
+        <MyAppBar userAuth={user_is_auth} />
 {/* ------------------main component--------------- */}
         <Container component="main" maxWidth="xl">
 {/* ------------------Search bar-------------------  */}
-            <Container component="form">
+            <Container component="form" onSubmit={(e) => submit(e)}>
                 <TextField
                     id="outlined-controlled"
                     // className="text"
@@ -71,15 +74,18 @@ export default function Home({books}) {
                     variant="outlined"
                     placeholder="Search..."
                     size="medium"
+                    value={books.search}
+                    onInput={(e) => setValueInput(e.target.value)}
+                    onKeyDown={(e) => setValueInput(e.target.value)}
                      slotProps={{
                         input: {
                             endAdornment:   <InputAdornment position="end">
                                                 <IconButton type="submit" aria-label="search">
                                                     <SearchIcon style={{ fill: "blue" }}
-                                                                            onClick={(e) => {
-                                                                                submit(e);
-                                                                                // ()=>console.log("Click")
-                                                                            }}
+                                                                            // onClick={(e) => {
+                                                                            //     submit(e);
+                                                                            //     // ()=>console.log("Click")
+                                                                            // }}
                                                     />
                                                 </IconButton>
                                             </InputAdornment>,
@@ -93,23 +99,18 @@ export default function Home({books}) {
             {books.map((book, index)=>{
                 return(
                     <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }}>
-                        {/* <div>{item.book_name}</div> */}
-                    <Card sx={{ maxWidth: 345 }}>
+                            {/* <div>{item.book_name}</div> */}
+                        <Card sx={{ maxWidth: 345 }}>
                             <CardHeader
-                                avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    R
-                                </Avatar>
-                                }
                                 action={
                                 <IconButton aria-label="settings">
                                     {/* <CheckIcon /> */}
-                                    <AddCircleOutlineIcon onClick={()=>console.log("Click")} />
+                                    {user_is_auth && <AddCircleOutlineIcon onClick={()=>console.log("Click")} />}
                                 </IconButton>
                                 }
-                                title={book.book_name}
-                                subheader="September 14, 2016"
+                                title={<Link href={`/one_book/${book.id}`} underline='none'>{book.book_name}</Link>}
                             />
+
                             <CardMedia
                                 component="img"
                                 height="194"

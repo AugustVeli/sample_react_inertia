@@ -28,7 +28,8 @@ class Book extends Model
         "binding",
         "amount",
         "location",
-        'user_id'
+        'user_id',
+        'want_look'
     ];
 
     public function users(): BelongsTo

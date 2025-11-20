@@ -12,21 +12,25 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import Link from '@mui/material/Link';
 import { usePage } from '@inertiajs/react'
-import { Link } from '@inertiajs/react'
 
 const pages = [
+            {name:'Home', url:'/', id:'home'},
             {name:'My books', url:'/account/dashboard/book', id:'my_books'},
             {name:'Terms of use', url:'/terms', id:'terms'},
             {name:'About', url:'/about', id:'about'}
         ];
+const settings_auth = [
+            {name:'Account', url:'/account', id:'account'},
+            {name:'Logout', url:'/logout', id:'logout'}
+        ];
 const settings = [
             {name:'Login', url:'/login', id:'login'},
             {name:'Register', url:'/register', id:'register'},
-            {name:'Logout', url:'/logout', id:'logout'}
         ];
 
-function MyAppBar() {
+function MyAppBar({userAuth}) {
   const props = usePage().props
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -55,7 +59,7 @@ function MyAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -66,7 +70,7 @@ function MyAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Book Exchange
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -108,7 +112,7 @@ function MyAppBar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -120,11 +124,11 @@ function MyAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Book Exchange
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-                <Link href={page.url}>
+            {pages.map((page, index) => (
+                <Link key={index} href={page.url} underline="none">
                     <Button
                         key={page.name}
                         id={page.id}
@@ -136,7 +140,8 @@ function MyAppBar() {
                 </Link>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          {userAuth === true ?
+            <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -158,7 +163,7 @@ function MyAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {settings_auth.map((setting) => (
                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                   <Typography sx={{ textAlign: 'center' }}>
                     <Link href={setting.url}>{setting.name}</Link>
@@ -167,6 +172,23 @@ function MyAppBar() {
               ))}
             </Menu>
           </Box>
+            :
+             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                {settings.map((page, index) => (
+                    <Link key={index} href={page.url} underline="none">
+                        <Button
+                            key={page.name}
+                            id={page.id}
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            {page.name}
+                        </Button>
+                    </Link>
+                ))}
+            </Box>
+          }
+
         </Toolbar>
       </Container>
     </AppBar>

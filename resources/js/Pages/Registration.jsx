@@ -3,12 +3,11 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useForm } from '@inertiajs/react'
+import { useForm, Head } from '@inertiajs/react'
 
 export default function Registration() {
 
     const { data, setData, post, processing, errors } = useForm({
-            // _token: props.csrf_token,
             name:'',
             email:'',
             password:''
@@ -21,6 +20,7 @@ export default function Registration() {
 
     return(
             <>
+            <Head title='Registration'/>
             <Container sx={{marginBottom:"20px"}} component="header" maxWidth="xs">
                 <Typography component="h1" variant="h5">
                     Sign In

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->longText("description");
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
+            $table->string("want_look")->nullable();
         });
     }
 

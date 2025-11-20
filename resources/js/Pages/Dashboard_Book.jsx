@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import { usePage } from '@inertiajs/react'
 import Button from '@mui/material/Button';
 import AddNewBook from '../Components/AddNewBook';
@@ -6,11 +6,14 @@ import EditBook from '../Components/EditBook';
 import { Head } from '@inertiajs/react'
 import CustomAlert from '../Components/CustomAlert';
 import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import Modal from '@mui/material/Modal';
+import WantLook from '../Components/WantLook';
 import MyAppBar from '../Layers/MyAppBar';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,11 +27,28 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function Dashboard_Book({books}) {
+const styleBox = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
+export default function Dashboard_Book({books, users}) {
     const { flash } = usePage().props;
     const [addBook, setAddBook] = useState('');
     const [editBook, setEditBook] = useState('');
     const [book, setBook] = useState('');
+    const [open, setOpen] = useState({myBoolean:false, myIndex:''});
+
+    const handleOpen = (index) => setOpen({myBoolean:true, myIndex:index});
+    const handleClose = () => setOpen({myBoolean:false, myIndex:''});
 
     const handle_addBook = (item) => setAddBook(item);
     const handle_editBook = (item) => setEditBook(item);
@@ -36,9 +56,10 @@ export default function Dashboard_Book({books}) {
     return(
         <>
             <MyAppBar/>
+            {console.log(users, 'users')}
+            {console.log(books, 'books')}
             {console.table(flash.message_success)}
-            {/* <CustomAlert type={type} message={flash.message_error}/> */}
-            {flash.message_success != null ? <CustomAlert type={'success'} message={flash.message_success}/> : ''}
+            {flash.message_success && <CustomAlert type={'success'} message={flash.message_success}/>}
             <Head title="Dashboard-Book" />
 
             {addBook ?? <AddNewBook handle_addBook={handle_addBook}/>}
@@ -66,25 +87,36 @@ export default function Dashboard_Book({books}) {
                             Add book
                         </Button>
                     </Item>
-                    <Item>
-                        <Button>Edit</Button>
-                    </Item>
-                    <Item>
-                        <Button color="error">Delete</Button>
-                    </Item>
                 </Stack>
             </Container>
 
             <Container component="main" maxWidth="lg" sx={{margin:"auto"}}>
                 <Stack spacing={2}>
-                    {/* {console.table(books)} */}
+
                     {books.map((book, index)=>{
-                        return <Item key={index}>{book.book_name}
+                        return(
+                        <>
+                            <Item key={index}>
+                                    <div>
+                                        <Modal
+                                            open={open.myBoolean}
+                                            onClose={handleClose}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={styleBox}>
+                                                <WantLook users={users[open.myIndex]}/>
+                                            </Box>
+                                        </Modal>
+                                        <Button color='warning' onClick={()=>handleOpen(index)}>Users want the book</Button>
+                                    </div>
+                                    <Link href={`/one_book/${book.id}`} underline="none">
+                                        {book.book_name}
+                                    </Link>
                                     <Button color='info' variant="contained" onClick={()=>{handle_editBook(null); setBook(book)}}>Edit</Button>
                                     <Button color='error'variant="contained" href={`/account/dashboard/delete_book/${book.id}`}>Delete</Button>
-                                </Item>
-
-                    })}
+                            </Item>
+                        </>)})}
                 </Stack>
             </Container>
         </>

@@ -3,9 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\Auth\LoginRegisterController;
+use App\Http\Controllers\AccountController;
 
 Route::get('/',[BookController::class, 'show'])->name('home');
-Route::post('/?search={}',[BookController::class, 'search'])->name('home.search');
+
+Route::get('/one_book/{id}',[BookController::class, 'bookOne'])->name('one_book');
+// Route::get('/',[BookController::class, 'search'])->name('home.search');
 
 Route::inertia('/about', 'About');
 // Route::get('/account/dashboard/author', function () {
@@ -17,11 +20,10 @@ Route::inertia('/about', 'About');
 // ->name("dashboard.author");
 //Dashboard--------------
 Route::middleware("auth")->group(function () {
-// Route::get('/account', [Account::class, 'home'])->name('account.home');
-    // Route::get('/account',
-    //     [LoginRegisterController::class, 'account'])->name('account');
-    // Route::post('/account/update',
-    //     [LoginRegisterController::class, 'update'])->name('account.update');
+    Route::get('/account',
+        [AccountController::class, 'show'])->name('account');
+    Route::post('/account/update',
+        [AccountController::class, 'update'])->name('account.update');
     Route::get('/account/dashboard/book',
         [BookController::class, 'showInDashboard'])->name('dashboard.books');
     Route::post('/account/dashboard/add_book',
@@ -34,6 +36,9 @@ Route::middleware("auth")->group(function () {
 });
 
 Route::middleware("guest")->group(function() {
+    Route::get('/back', function() {
+        return redirect()->back();
+    })->name('back');
     Route::get('/login', [LoginRegisterController::class, 'login'])->name('login');
     Route::post('/login', [LoginRegisterController::class, 'authenticate'])->name('login.enter');
     Route::get('/register', [LoginRegisterController::class, 'register'])->name('register.show');

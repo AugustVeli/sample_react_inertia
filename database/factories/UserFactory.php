@@ -23,11 +23,13 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $inTouch = [fake()->unique()->safeEmail(), fake()->phoneNumber(), '@' . fake()->firstName()];
+
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'inTouch' => fake()->sentence(),
+            'inTouch' =>  implode(',', $inTouch),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             // 'updated_at' => fake()->dateTime(),

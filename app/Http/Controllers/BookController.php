@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Book;
-use App\Models\Author;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth as AuthFacades;
 
 class BookController extends Controller
 {
-    function show(): \Inertia\Response {
+    function show(Request $request): \Inertia\Response {
+        if (AuthFacades::check()) {
+            $user_id = $request->session()->get("user_id");
             return Inertia::render('Home', [
                 'books' => Book::all()->map(function ($book) {
                     return [
@@ -25,18 +27,74 @@ class BookController extends Controller
                         "location"=>$book->location,
                         "amount" => $book->amount,
                         "description"=>$book->description,
-                        // 'edit_url' => route('books.edit', $book),
+                        "want_look"=>$book->want_look
+                    ];
+                }),
+
+                "user_is_auth" => true
+            ]);
+        }
+        $search = $request->search;
+        if ($search) {
+            $books = Book::whereLike('book_name', "%$search%")->get();
+            // $books['search'] = $search;
+            return Inertia::render('Home', [
+                    'books' => $books
+                ]
+            );
+        }
+            return Inertia::render('Home', [
+                'books' => Book::all()->map(function ($book) {
+                    return [
+                        "id" => $book->id,
+                        "book_name" => $book->book_name,
+                        "iso" => $book->iso,
+                        "author"=>$book->author,
+                        "author_org"=>$book->author_org,
+                        "name_genre"=>$book->name_genre,
+                        "binding"=>$book->binding,
+                        "publisher"=>$book->publisher,
+                        "location"=>$book->location,
+                        "amount" => $book->amount,
+                        "description"=>$book->description,
+                        "want_look"=>$book->want_look
                     ];
                 }),
         ]);
     }
 
+    // function search(Request $request) {
+    //     $search = $request->search;
+    //     $books = Book::whereLike('book_name', $search)->get();
+    //     return Inertia::render('Home', [
+    //             'books' => $books
+    //         ]
+    //     );
+    // }
 
     function showInDashboard(Request $request): \Inertia\Response {
-         $user_id = $request->session()->get('user_id');
-            return Inertia::render('Dashboard_Book', [
-                'books' => Book::whereUserId($user_id)->get(),
+        $new_want_look = [];
+        $user_array = [];
+        $user_id = $request->session()->get('user_id');
+        $want_look = Book::whereUserId($user_id)->pluck('want_look')->toArray();
+        foreach ($want_look as $key => $value) {
+            $new_want_look[$key] = explode(',', $value);
+        }
+        foreach ($new_want_look as $key => $value) {
+            $num = count($value);
+            for ($i=0; $i < $num; $i++) {
+                $user_array[$key][$i] = User::whereName($value[$i])->get();
+            }
+        }
+
+        return Inertia::render('Dashboard_Book', [
+            'books' => Book::whereUserId($user_id)->get(),
+            // 'users' =>$new_want_look,
+            'users' =>$user_array
+
         ]);
+
+
     }
 
     function bookOne($id):\Inertia\Response {
@@ -68,7 +126,7 @@ class BookController extends Controller
         // $id_author = $author_array->id;
         $user_id = $request->session()->get("user_id");
 
-        $book_table = Book::create([
+        Book::create([
             "book_name"=>$validated["book_name"],
             "iso"=>$validated["iso"],
             "author"=> $validated["author"],
@@ -86,16 +144,8 @@ class BookController extends Controller
         return redirect()->route('dashboard.books')->with("success", "You added a new book");
     }
 
-    function search(Request $request):string {
-        $search = $request->search();
-        $book = Book::whereLike('book_name', $search);
-        $book->delete(); //returns true/false
-        return redirect()->route('dashboard.books')->with('success', 'You deleted the book');
-    }
-
     function update($id, Request $request) {
-        $validated = $request->validate([
-            // "id"=>"required|integer",
+        $request->validate([
             "book_name" => "required|string|max:100",
             "iso" => "max:30",
             "author"=>"required|max:50",
