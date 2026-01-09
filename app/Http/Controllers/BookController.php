@@ -17,6 +17,7 @@ class BookController extends Controller
                 'books' => Book::all()->map(function ($book) {
                     return [
                         "id" => $book->id,
+                        "photo_link" => $book->photo_link,
                         "book_name" => $book->book_name,
                         "iso" => $book->iso,
                         "author"=>$book->author,
@@ -37,7 +38,6 @@ class BookController extends Controller
         $search = $request->search;
         if ($search) {
             $books = Book::whereLike('book_name', "%$search%")->get();
-            // $books['search'] = $search;
             return Inertia::render('Home', [
                     'books' => $books
                 ]
@@ -47,6 +47,7 @@ class BookController extends Controller
                 'books' => Book::all()->map(function ($book) {
                     return [
                         "id" => $book->id,
+                        "photo_link" => $book->photo_link,
                         "book_name" => $book->book_name,
                         "iso" => $book->iso,
                         "author"=>$book->author,
@@ -62,15 +63,6 @@ class BookController extends Controller
                 }),
         ]);
     }
-
-    // function search(Request $request) {
-    //     $search = $request->search;
-    //     $books = Book::whereLike('book_name', $search)->get();
-    //     return Inertia::render('Home', [
-    //             'books' => $books
-    //         ]
-    //     );
-    // }
 
     function showInDashboard(Request $request): \Inertia\Response {
         $new_want_look = [];
@@ -90,7 +82,8 @@ class BookController extends Controller
         return Inertia::render('Dashboard_Book', [
             'books' => Book::whereUserId($user_id)->get(),
             // 'users' =>$new_want_look,
-            'users' =>$user_array
+            'users' =>$user_array,
+            "user_is_auth" => true
 
         ]);
 
@@ -98,13 +91,17 @@ class BookController extends Controller
     }
 
     function bookOne($id):\Inertia\Response {
+        $user_is_auth = false;
+        if (AuthFacades::check()) $user_is_auth = true;
         return Inertia::render('BookOne', [
-                'book' => Book::find($id)
+                'book' => Book::find($id),
+                'user_is_auth' => $user_is_auth
         ]);
     }
 
     function store(Request $request) {
         $validated = $request->validate([
+            "photo_link" => "required|string",
             "book_name" => "required|string|max:100",
             "iso" => "max:30",
             "author"=>"required|max:50",
@@ -120,6 +117,7 @@ class BookController extends Controller
         $user_id = $request->session()->get("user_id");
 
         Book::create([
+            "photo_link"=>$validated["photo_link"],
             "book_name"=>$validated["book_name"],
             "iso"=>$validated["iso"],
             "author"=> $validated["author"],
@@ -140,6 +138,7 @@ class BookController extends Controller
 
     function update($id, Request $request) {
         $request->validate([
+            "photo_link" => "required|string",
             "book_name" => "required|string|max:100",
             "iso" => "max:30",
             "author"=>"required|max:50",
@@ -152,24 +151,7 @@ class BookController extends Controller
             "amount"=>"required",
         ]);
         $book=Book::find($id);
-        // ->update(function ($book) {
-        //     return [
-        //         "book_name" => $book->book_name,
-        //         "iso" => $book->iso,
-        //         "author"=>$book->author,
-        //         "author_org"=>$book->author_org,
-        //         "name_genre"=>$book->name_genre,
-        //         "binding"=>$book->binding,
-        //         "publisher"=>$book->publisher,
-        //         "location"=>$book->location,
-        //         "description"=>$book->description,
-        //         "amount" => $book->amount,
-        //         "user_id"=> $book->user_id
-        //         // 'edit_url' => route('books.edit', $book),
-        //     ];
-        // });
         $book->update($request->all());
-        // return redirect()->back();
         return redirect()->route('dashboard.books')->with('success', 'You edited the book');
     }
 

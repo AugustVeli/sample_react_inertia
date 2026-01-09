@@ -65,10 +65,7 @@ export default function Home({books, user_is_auth}) {
             <Container component="form" onSubmit={(e) => submit(e)}>
                 <TextField
                     id="outlined-controlled"
-                    // className="text"
                     fullWidth
-
-                    // sx={{marginBottom:"12px", marginTop:"12px", marginLeft:"auto", marginRight:"auto", minWidth:'100px',maxWidth:'400px'}}
                     margin="normal"
                     label="Enter a book name"
                     variant="outlined"
@@ -82,10 +79,6 @@ export default function Home({books, user_is_auth}) {
                             endAdornment:   <InputAdornment position="end">
                                                 <IconButton type="submit" aria-label="search">
                                                     <SearchIcon style={{ fill: "blue" }}
-                                                                            // onClick={(e) => {
-                                                                            //     submit(e);
-                                                                            //     // ()=>console.log("Click")
-                                                                            // }}
                                                     />
                                                 </IconButton>
                                             </InputAdornment>,
@@ -99,7 +92,6 @@ export default function Home({books, user_is_auth}) {
             {books.map((book, index)=>{
                 return(
                     <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }}>
-                            {/* <div>{item.book_name}</div> */}
                         <Card sx={{ maxWidth: 345 }}>
                             <CardHeader
                                 action={
@@ -110,12 +102,11 @@ export default function Home({books, user_is_auth}) {
                                 }
                                 title={<Link href={`/one_book/${book.id}`} underline='none'>{book.book_name}</Link>}
                             />
-
                             <CardMedia
                                 component="img"
                                 height="194"
-                                image="/static/images/cards/paella.jpg"
-                                alt="Paella dish"
+                                src={book.photo_link}
+                                alt={book.name}
                             />
                             <CardContent>
                                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>

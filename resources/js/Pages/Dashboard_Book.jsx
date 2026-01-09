@@ -40,7 +40,7 @@ const styleBox = {
 };
 
 
-export default function Dashboard_Book({books, users}) {
+export default function Dashboard_Book({books, users, user_is_auth}) {
     const { flash } = usePage().props;
     const [addBook, setAddBook] = useState('');
     const [editBook, setEditBook] = useState('');
@@ -55,11 +55,12 @@ export default function Dashboard_Book({books, users}) {
 
     return(
         <>
-            <MyAppBar/>
+            <MyAppBar userAuth={user_is_auth}/>
             {console.log(users, 'users')}
             {console.log(books, 'books')}
             {console.table(flash.message_success)}
             {flash.message_success && <CustomAlert type={'success'} message={flash.message_success}/>}
+            {users[0][0].length !=0 && <CustomAlert type={'success'} message={'Some people want to get in touch'}/>}
             <Head title="Dashboard-Book" />
 
             {addBook ?? <AddNewBook handle_addBook={handle_addBook}/>}
@@ -97,7 +98,7 @@ export default function Dashboard_Book({books, users}) {
                         return(
                         <>
                             <Item key={index}>
-                                    <div>
+                                   {users[0][0].length!= 0 ? <div>
                                         <Modal
                                             open={open.myBoolean}
                                             onClose={handleClose}
@@ -105,11 +106,11 @@ export default function Dashboard_Book({books, users}) {
                                             aria-describedby="modal-modal-description"
                                         >
                                             <Box sx={styleBox}>
-                                                <WantLook users={users[open.myIndex]}/>
+                                                 <WantLook users={users[open.myIndex]}/>
                                             </Box>
                                         </Modal>
                                         <Button color='warning' onClick={()=>handleOpen(index)}>Users want the book</Button>
-                                    </div>
+                                    </div>: ''}
                                     <Link href={`/one_book/${book.id}`} underline="none">
                                         {book.book_name}
                                     </Link>

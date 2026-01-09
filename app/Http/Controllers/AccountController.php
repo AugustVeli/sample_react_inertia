@@ -12,8 +12,8 @@ class AccountController extends Controller
     public function show(Request $request): \Inertia\Response
     {
         $user_id = $request->session()->get('user_id');
-        $user = User::WhereId($user_id)->get();
-        return Inertia::render('Account', ['user' => $user]);
+        $user = User::whereId($user_id)->get();
+        return Inertia::render('Account', ['user' => $user, 'user_is_auth' => true]);
     }
 
     public function update(Request $request): string

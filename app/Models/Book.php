@@ -17,6 +17,7 @@ class Book extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'photo_link',
         'book_name',
         'author',
         'author_english',

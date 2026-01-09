@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            // $table->string('photo');
+            $table->longText('photo_link');
             $table->string('book_name');
             $table->string('author');
             $table->string('author_org')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string("binding")->nullable();
             $table->integer('amount');
             $table->string('location');
-            $table->string("description");
+            $table->longText("description");
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->string("want_look")->nullable();

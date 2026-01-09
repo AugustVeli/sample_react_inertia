@@ -10,17 +10,18 @@ import Stack from '@mui/material/Stack';
 
 export default function AddNewBook({handle_addBook}) {
     const { data, setData, post, processing, errors } = useForm({
-            book_name: 'awdawd',
-            iso: '498418',
-            author: 'awdawd',
-            author_org: 'awdawd',
-            name_genre: 'poetry',
-            binding: 'awdawd',
+            photo_link: '',
+            book_name: '',
+            iso: '',
+            author: '',
+            author_org: '',
+            name_genre: '',
+            binding: '',
             publisher: '',
-            description: 'kkkkkkkkkk',
-            location:'dauga',
-            amount: '5',
-            dateOfBook: '1999-08-15'
+            description: '',
+            location:'',
+            amount: '',
+            dateOfBook: ''
         });
 
     function submit(e) {
@@ -39,6 +40,15 @@ export default function AddNewBook({handle_addBook}) {
             </IconButton>
             <Box component="form" onSubmit={submit} autoComplete='off'>
                 <Stack>
+                    <TextField
+                        required
+                        id="filled-required"
+                        label="Photo link"
+                        type="text"
+                        name="photo_link"
+                        value={data.photo_link}
+                        onChange={e => setData('photo_link', e.target.value)}
+                    />
                     <TextField
                         required
                         id="filled-required"

@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 
 export default function EditBook({handle_editBook, book}) {
     const { data, setData, post, processing, errors } = useForm({
+            photo_link: book.photo_link,
             book_name: book.book_name,
             iso: book.iso,
             author: book.author,
@@ -39,6 +40,15 @@ export default function EditBook({handle_editBook, book}) {
             </IconButton>
             <Box component="form" onSubmit={submit} autoComplete='off'>
                 <Stack>
+                     <TextField
+                        required
+                        id="filled-required"
+                        label="Photo link"
+                        type="text"
+                        name="photo_link"
+                        value={data.photo_link}
+                        onChange={e => setData('photo_link', e.target.value)}
+                    />
                     <TextField
                         required
                         id="filled-required"
