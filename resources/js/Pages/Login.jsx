@@ -1,6 +1,7 @@
 import React from "react";
 // import "./style.css";
 import Button from "@mui/material/Button";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -54,6 +55,9 @@ export default function Login() {
 
     return (
         <Container component="main" maxWidth="xs" sx={{marginTop:"200px"}}>
+            <Link href="/" color='inherit'>
+                <Button variant="contained" color='success' startIcon={<ArrowBackIcon/>} />
+            </Link>
             <CssBaseline />
             <Head title='Login'/>
             <div className={classes.paper}>

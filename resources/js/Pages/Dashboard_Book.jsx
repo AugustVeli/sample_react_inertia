@@ -60,7 +60,7 @@ export default function Dashboard_Book({books, users, user_is_auth}) {
             {console.log(books, 'books')}
             {console.table(flash.message_success)}
             {flash.message_success && <CustomAlert type={'success'} message={flash.message_success}/>}
-            {users[0][0].length !=0 && <CustomAlert type={'success'} message={'Some people want to get in touch'}/>}
+            {users.length !=0 && <CustomAlert type={'success'} message={'Some people want to get in touch'}/>}
             <Head title="Dashboard-Book" />
 
             {addBook ?? <AddNewBook handle_addBook={handle_addBook}/>}

@@ -8,22 +8,16 @@ use App\Http\Controllers\AccountController;
 Route::get('/',[BookController::class, 'show'])->name('home');
 
 Route::get('/one_book/{id}',[BookController::class, 'bookOne'])->name('one_book');
-// Route::get('/',[BookController::class, 'search'])->name('home.search');
 
 Route::inertia('/about', 'About');
-// Route::get('/account/dashboard/author', function () {
-//     return inertia("Dashboard_Author");
-// })->name('dashboard.author');
-// Route::post('/account/dashboard/add_author', [LoginRegisterController::class, 'store'])
-// ->name("dashboard.author_add");
-// Route::post('/admin/dashboard/add_author', [AuthorController::class, 'show'])
-// ->name("dashboard.author");
 //Dashboard--------------
 Route::middleware("auth")->group(function () {
     Route::get('/account',
         [AccountController::class, 'show'])->name('account');
     Route::post('/account/update',
         [AccountController::class, 'update'])->name('account.update');
+    Route::post('/account/delete',
+        [AccountController::class, 'delete'])->name('account.delete');
     Route::get('/account/dashboard/book',
         [BookController::class, 'showInDashboard'])->name('dashboard.books');
     Route::post('/account/dashboard/add_book',

@@ -9,16 +9,22 @@ import Stack from '@mui/material/Stack';
 import MyAppBar from '../Layers/MyAppBar';
 
 export default function Account({user, user_is_auth}) {
+    console.log(user);
     const { data, setData, post, processing, errors } = useForm({
-            name: user.name,
-            email: user.email,
-            inTouch: user.inTouch,
-            password: user.password,
+            name: user[0].name,
+            email: user[0].email,
+            inTouch: user[0].inTouch,
+            password: user[0].password,
     });
 
     function submit(e) {
+        console.log('submit');
         e.preventDefault();
         post('/account/update');
+    }
+
+    function submitDelete(e) {
+        post('/account/delete');
     }
 
     return(
@@ -34,6 +40,7 @@ export default function Account({user, user_is_auth}) {
                     <Stack>
                         <TextField
                             required
+                            sx={{marginTop:'15px'}}
                             id="filled-required"
                             label="User name"
                             type="text"
@@ -43,6 +50,7 @@ export default function Account({user, user_is_auth}) {
                         />
                         <TextField
                             required
+                            sx={{marginTop:'15px'}}
                             id="filled-required"
                             label="Email"
                             type="email"
@@ -51,6 +59,7 @@ export default function Account({user, user_is_auth}) {
                             onChange={e => setData('email', e.target.value)}/>
                         <TextField
                             required
+                            sx={{marginTop:'15px'}}
                             id="filled-required"
                             label="Password"
                             type="password"
@@ -60,6 +69,7 @@ export default function Account({user, user_is_auth}) {
                         />
                         <TextField
                             required
+                            sx={{marginTop:'15px'}}
                             id="filled-required"
                             label="Contact info"
                             type="text"
@@ -72,7 +82,9 @@ export default function Account({user, user_is_auth}) {
                         />
                         <Button type='submit' variant="contained" disabled={processing}>Save</Button>
                     </Stack>
-
+                </Box>
+                <Box component="form" sx={{marginTop:'15px'}} onSubmit={submitDelete}>
+                    <Button type='submit'color='error' variant="contained" disabled={processing}>Delete Account</Button>
                 </Box>
             </Paper>
         </>

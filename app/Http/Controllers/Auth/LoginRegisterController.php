@@ -12,13 +12,6 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginRegisterController extends Controller
 {
-    // public static function middleware(): array
-    // {
-    //     return [
-    //         new Middleware('guest', except: ['home', 'logout']),
-    //         new Middleware('auth', only: ['home', 'logout']),
-    //     ];
-    // }
 
     public function register(): \Inertia\Response
     {
