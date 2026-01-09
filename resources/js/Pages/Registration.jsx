@@ -14,6 +14,7 @@ export default function Registration() {
     });
 
     function submit(e) {
+        console.log('submit');
         e.preventDefault();
         post('/register');
     }
@@ -23,7 +24,7 @@ export default function Registration() {
             <Head title='Registration'/>
             <Container sx={{marginBottom:"20px"}} component="header" maxWidth="xs">
                 <Typography component="h1" variant="h5">
-                    Sign In
+                    Sign Up
                 </Typography>
             </Container>
             <Container component="main" maxWidth="xs">
