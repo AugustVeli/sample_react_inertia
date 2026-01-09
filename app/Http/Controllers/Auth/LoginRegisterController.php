@@ -27,7 +27,7 @@ class LoginRegisterController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
             'password' => 'required|string|min:8|confirmed'
@@ -40,6 +40,8 @@ class LoginRegisterController extends Controller
         ]);
 
         Auth::login($user);
+        $user_id = User::whereEmail($validated['email'])->value('id');
+        $request->session()->put('user_id', $user_id);
         $request->session()->regenerate();
         return redirect()->route('home')
             ->withSuccess('You have successfully registered & logged in!');

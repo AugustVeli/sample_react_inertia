@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string("binding")->nullable();
             $table->integer('amount');
             $table->string('location');
-            $table->longText("description");
+            $table->string("description");
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->string("want_look")->nullable();

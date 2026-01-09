@@ -10,21 +10,22 @@ import Stack from '@mui/material/Stack';
 
 export default function AddNewBook({handle_addBook}) {
     const { data, setData, post, processing, errors } = useForm({
-            book_name: '',
-            iso: '',
-            author: '',
-            author_org: '',
-            name_genre: '',
-            binding: '',
+            book_name: 'awdawd',
+            iso: '498418',
+            author: 'awdawd',
+            author_org: 'awdawd',
+            name_genre: 'poetry',
+            binding: 'awdawd',
             publisher: '',
-            description: '',
-            location:'',
-            amount: '',
+            description: 'kkkkkkkkkk',
+            location:'dauga',
+            amount: '5',
+            dateOfBook: '1999-08-15'
         });
 
     function submit(e) {
         e.preventDefault();
-        post('/admin/dashboard/add_book');
+        post('/account/dashboard/add_book');
     }
 
     return(

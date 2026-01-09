@@ -103,7 +103,7 @@ class BookController extends Controller
         ]);
     }
 
-    function store(Request $request): string {
+    function store(Request $request) {
         $validated = $request->validate([
             "book_name" => "required|string|max:100",
             "iso" => "max:30",
@@ -113,17 +113,10 @@ class BookController extends Controller
             "binding"=>"required|max:30",
             "publisher"=>"max:30",
             "location"=>"required|max:30",
-            "description"=>"required",
+            "description"=>"required|string|max:300",
             "amount"=>"required",
         ]);
-        // try {
-            // $author_array = Author::where("author", $validated["author"])->firstOrFail();
-        // } catch (ModelNotFoundException $e) {
 
-        //     return redirect()->route('dashboard.book')->with("error", "Something went wrong!");
-        // }
-
-        // $id_author = $author_array->id;
         $user_id = $request->session()->get("user_id");
 
         Book::create([
@@ -132,12 +125,13 @@ class BookController extends Controller
             "author"=> $validated["author"],
             "author_org"=> $validated["author_org"],
             "name_genre"=>$validated["name_genre"],
-            "publisher"=> isset($validated["publisher"]) ? $validated["publisher"] : null,
+            // "publisher"=> isset($validated["publisher"]) ? $validated["publisher"] : null,
             "binding"=>$validated["binding"],
             "location"=>$validated["location"],
             "description"=>$validated["description"],
             "amount"=>(int)$validated["amount"],
-            "user_id"=> $user_id
+            "user_id"=> $user_id,
+            "dateOfBook"=>'1999-08-15'
         ]);
         //Add new author if there is not one
 
